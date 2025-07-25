@@ -10,19 +10,14 @@ import AuditorPanel from './pages/AuditorPanel'
 import UserManagement from './pages/UserManagement'
 import Dashboard from './pages/Dashboard'
 import { Toaster } from 'react-hot-toast'
-import { useEffect } from 'react'
 
 function App() {
   const { user, loading } = useAuth()
 
-  // Forzar modo oscuro en toda la aplicación
-  useEffect(() => {
-    document.documentElement.classList.add('dark')
-  }, [])
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500" />
       </div>
     )
@@ -100,7 +95,7 @@ function App() {
         <Route
           path="*"
           element={
-            <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+            <div className="min-h-screen bg-gray-900 flex items-center justify-center">
               <div className="text-center">
                 <h1 className="text-4xl font-bold mb-4">404</h1>
                 <p className="mb-4">Página no encontrada</p>

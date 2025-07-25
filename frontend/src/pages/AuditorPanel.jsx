@@ -7,10 +7,10 @@ import AuditStats from '../components/AuditStats'
 import { auditApi } from '../Services/api'
 
 const colors = {
-  crear: 'bg-green-100 text-green-800',
-  editar: 'bg-yellow-100 text-yellow-800',
-  eliminar: 'bg-red-100 text-red-800',
-  consultar: 'bg-gray-100 text-gray-800'
+  crear: 'bg-green-600 text-white',
+  editar: 'bg-yellow-600 text-white',
+  eliminar: 'bg-red-600 text-white',
+  consultar: 'bg-gray-700 text-white'
 }
 
 export default function AuditorPanel() {
@@ -48,7 +48,7 @@ export default function AuditorPanel() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-900">
         <Navbar />
         <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
@@ -58,43 +58,43 @@ export default function AuditorPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Panel de Auditoría</h1>
+        <h1 className="text-2xl font-bold text-gray-100 mb-6">Panel de Auditoría</h1>
 
         <AuditStats stats={stats} />
         <TopActiveUsers users={topUsers} />
 
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        <div className="bg-gray-800 shadow rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
-            <h2 className="text-lg font-medium text-gray-900 mb-4">Registros</h2>
+            <h2 className="text-lg font-medium mb-4">Registros</h2>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-700">
+                <thead className="bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Fecha
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Usuario
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Acción
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Tabla
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Detalle
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase">
                       Likert
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-gray-800 divide-y divide-gray-700">
                   {logs.map(l => (
                     <tr key={l.id}>
                       <td className="px-6 py-4 whitespace-nowrap text-sm">{formatDate(l.createdAt)}</td>

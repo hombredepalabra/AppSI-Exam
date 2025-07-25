@@ -72,7 +72,7 @@ export default function AdminPanel() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-900">
         <Navbar />
         <div className="flex items-center justify-center h-[calc(100vh-4rem)]">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
@@ -82,52 +82,52 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-900 text-gray-100">
       <Navbar />
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           {/* Formulario */}
-          <div className="bg-white shadow rounded-lg p-6 mb-6">
+          <div className="bg-gray-800 shadow rounded-lg p-6 mb-6">
             <h2 className="text-lg font-medium mb-4">
               {editingRecord ? 'Editar Registro' : 'Nuevo Registro'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Título</label>
+                  <label className="block text-sm font-medium text-gray-300">Título</label>
                   <input
                     type="text"
                     value={formData.titulo}
                     onChange={e => setFormData({...formData, titulo: e.target.value})}
                     required
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Categoría</label>
+                  <label className="block text-sm font-medium text-gray-300">Categoría</label>
                   <input
                     type="text"
                     value={formData.categoria}
                     onChange={e => setFormData({...formData, categoria: e.target.value})}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                    className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Descripción</label>
+                <label className="block text-sm font-medium text-gray-300">Descripción</label>
                 <textarea
                   value={formData.descripcion}
                   onChange={e => setFormData({...formData, descripcion: e.target.value})}
                   rows={3}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 ></textarea>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Estado</label>
+                <label className="block text-sm font-medium text-gray-300">Estado</label>
                 <select
                   value={formData.estado}
                   onChange={e => setFormData({...formData, estado: e.target.value})}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="mt-1 block w-full rounded-md border-gray-600 bg-gray-700 text-gray-100 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 >
                   <option value="activo">Activo</option>
                   <option value="inactivo">Inactivo</option>
@@ -142,7 +142,7 @@ export default function AdminPanel() {
                       setEditingRecord(null)
                       setFormData({ titulo: '', descripcion: '', categoria: '', estado: 'activo' })
                     }}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                    className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-md hover:bg-gray-600"
                   >
                     Cancelar
                   </button>
@@ -158,30 +158,30 @@ export default function AdminPanel() {
           </div>
 
           {/* Tabla */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+          <div className="bg-gray-800 shadow rounded-lg overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-700">
+              <thead className="bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Categoría</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">ID</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Título</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Descripción</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Categoría</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Estado</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-gray-800 divide-y divide-gray-700">
                 {records.map(record => (
                   <tr key={record.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{record.id}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{record.titulo}</td>
-                    <td className="px-6 py-4 text-sm text-gray-500">{record.descripcion}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.categoria}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">{record.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm">{record.titulo}</td>
+                    <td className="px-6 py-4 text-sm text-gray-300">{record.descripcion}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{record.categoria}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        ${record.estado === 'activo' ? 'bg-green-100 text-green-800' : 
-                          record.estado === 'inactivo' ? 'bg-red-100 text-red-800' : 
-                          'bg-yellow-100 text-yellow-800'}`}>
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                        ${record.estado === 'activo' ? 'bg-green-600 text-white' :
+                          record.estado === 'inactivo' ? 'bg-red-600 text-white' :
+                          'bg-yellow-600 text-white'}`}>
                         {record.estado}
                       </span>
                     </td>
