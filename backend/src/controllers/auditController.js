@@ -68,3 +68,42 @@ export const getAuditStats = async (req, res) => {
   })
   res.json(stats)
 }
+
+export const getUserTableStats = async (req, res) => {
+  const { startDate, endDate } = req.query
+  const where = {}
+  if (startDate && endDate) {
+    where.createdAt = {
+      [Op.between]: [new Date(startDate), new Date(endDate)]
+    }
+  }
+  const stats = await Audit.findAll({
+    attributes: [
+      'usuario_id',
+      'tabla',
+      [fn('COUNT', '*'), 'total']
+    ],
+    include: [{ model: User, attributes: ['nombre', 'email'] }],
+    where,
+    group: ['usuario_id', 'tabla', 'User.id'],
+    order: [literal('total DESC')]
+  })
+  res.json(stats)
+}
+
+export const getDeletionStats = async (req, res) => {
+  const { startDate, endDate } = req.query
+  const where = { accion: 'eliminar' }
+  if (startDate && endDate) {
+    where.createdAt = {
+      [Op.between]: [new Date(startDate), new Date(endDate)]
+    }
+  }
+  const stats = await Audit.findAll({
+    attributes: ['tabla', [fn('COUNT', '*'), 'total']],
+    where,
+    group: ['tabla'],
+    order: [literal('total DESC')]
+  })
+  res.json(stats)
+}
