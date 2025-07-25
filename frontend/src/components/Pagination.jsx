@@ -45,7 +45,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
             className={`px-3 py-1 rounded border ${
               p === page
                 ? 'bg-blue-500 text-white'
-                : 'hover:bg-gray-100'
+                : 'hover:bg-gray-700'
             }`}
           >
             {p}

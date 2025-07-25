@@ -8,7 +8,7 @@ html {
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
-/* Asegurar fondo y texto en modo oscuro global */
-.dark body {
+/* Estilo base en tonos oscuros */
+body {
   @apply bg-gray-900 text-gray-100;
 }
