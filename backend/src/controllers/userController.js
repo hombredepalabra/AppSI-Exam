@@ -1,16 +1,30 @@
 // src/controllers/userController.js
 import User from '../models/User.js';
+import { Op } from 'sequelize';
 
 // GET /api/users — listado ordenado por createdAt
 export const getAllUsers = async (req, res) => {
   try {
+    const search = req.query.q || '';
+    const where = search
+      ? {
+          [Op.or]: [
+            { nombre: { [Op.like]: `%${search}%` } },
+            { email: { [Op.like]: `%${search}%` } }
+          ]
+        }
+      : undefined;
+
     const users = await User.findAll({
+      where,
       order: [['createdAt', 'DESC']],
-      attributes: ['id','nombre','email','rol','createdAt']
+      attributes: ['id', 'nombre', 'email', 'rol', 'createdAt']
     });
     res.json(users);
   } catch (err) {
-    res.status(500).json({ message: 'Error al obtener usuarios', error: err.message });
+    res
+      .status(500)
+      .json({ message: 'Error al obtener usuarios', error: err.message });
   }
 };
 
