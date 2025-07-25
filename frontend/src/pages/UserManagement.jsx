@@ -7,6 +7,7 @@ import { usersApi } from '../Services/api'
 export default function UserManagement() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
   const [deleteModal, setDeleteModal] = useState({ show: false, id: null })
   const [editingUser, setEditingUser] = useState(null)
   const [formData, setFormData] = useState({
@@ -20,9 +21,9 @@ export default function UserManagement() {
     loadUsers()
   }, [])
 
-  const loadUsers = async () => {
+  const loadUsers = async (q = '') => {
     try {
-      const response = await usersApi.getAll()
+      const response = await usersApi.getAll(q)
       setUsers(response.data)
     } catch {
       toast.error('Error al cargar usuarios')
@@ -90,6 +91,34 @@ export default function UserManagement() {
       <Navbar />
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <h1 className="text-2xl font-bold mb-6">Gestión de Usuarios</h1>
+        <div className="mb-6 flex gap-2">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por nombre o email"
+            className="px-3 py-2 rounded-md bg-gray-700 border-gray-600 text-gray-100 flex-1"
+          />
+          <button
+            onClick={() => {
+              setLoading(true)
+              loadUsers(search)
+            }}
+            className="px-4 py-2 bg-indigo-600 rounded text-white"
+          >
+            Buscar
+          </button>
+          <button
+            onClick={() => {
+              setSearch('')
+              setLoading(true)
+              loadUsers()
+            }}
+            className="px-4 py-2 bg-gray-600 rounded text-white"
+          >
+            Limpiar
+          </button>
+        </div>
 
         {/* Formulario */}
         <div className="bg-gray-800 shadow rounded-lg p-6 mb-6">

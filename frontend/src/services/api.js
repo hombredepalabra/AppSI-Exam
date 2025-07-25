@@ -55,7 +55,7 @@ export const recordsApi = {
 
 // Servicios de Users
 export const usersApi = {
-  getAll: () => api.get('/api/users'),
+  getAll: (q = '') => api.get('/api/users', { params: { q } }),
   getById: (id) => api.get(`/api/users/${id}`),
   create: (data) => api.post('/api/users', data),
   update: (id, data) => api.put(`/api/users/${id}`, data),
