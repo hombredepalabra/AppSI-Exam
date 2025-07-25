@@ -19,9 +19,7 @@ api.interceptors.request.use(
     }
     return config
   },
-  (error) => {
-    return Promise.reject(error)
-  }
+  (error) => Promise.reject(error)
 )
 
 // Interceptor para manejar respuestas
@@ -67,6 +65,8 @@ export const auditApi = {
     api.get('/api/audit', { params: { page, limit } }),
   getTopActive : () => api.get('/api/audit/top-active'),
   getStats     : (params) => api.get('/api/audit/stats', { params }),
+  getTableStats: (params) => api.get('/api/audit/table-stats', { params }),
+  getDeletionStats: (params) => api.get('/api/audit/deletion-stats', { params }),
   // existentes
   getAll       : () => api.get('/api/audit'),
   getByUser    : (userId) => api.get(`/api/audit/user/${userId}`),

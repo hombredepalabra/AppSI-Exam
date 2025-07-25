@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar'
 import Pagination from '../components/Pagination'
 import TopActiveUsers from '../components/TopActiveUsers'
 import AuditStats from '../components/AuditStats'
+import UserTableStats from '../components/UserTableStats'
+import DeletionStats from '../components/DeletionStats'
 import { auditApi } from '../Services/api'
 
 const colors = {
@@ -17,26 +19,35 @@ export default function AuditorPanel() {
   const [logs, setLogs] = useState([])
   const [stats, setStats] = useState([])
   const [topUsers, setTopUsers] = useState([])
+  const [tableStats, setTableStats] = useState([])
+  const [deletionStats, setDeletionStats] = useState([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState(true)
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
 
   useEffect(() => {
     loadData(page)
-  }, [page])
+  }, [page, startDate, endDate])
 
   const loadData = async (p) => {
     setLoading(true)
     try {
-      const [{ data }, topRes, statsRes] = await Promise.all([
+      const params = { startDate, endDate }
+      const [{ data }, topRes, statsRes, tableRes, delRes] = await Promise.all([
         auditApi.getPaginated(p, 7),
         auditApi.getTopActive(),
-        auditApi.getStats()
+        auditApi.getStats(params),
+        auditApi.getTableStats(params),
+        auditApi.getDeletionStats(params)
       ])
       setLogs(data.data)
       setTotalPages(data.totalPages)
       setTopUsers(topRes.data)
       setStats(statsRes.data)
+      setTableStats(tableRes.data)
+      setDeletionStats(delRes.data)
     } catch {
       toast.error('Error al cargar auditoría')
     } finally {
@@ -45,6 +56,27 @@ export default function AuditorPanel() {
   }
 
   const formatDate = (d) => new Date(d).toLocaleString('es-ES')
+
+  const exportCsv = () => {
+    const header = 'Fecha,Usuario,Accion,Tabla,Detalle,Likert\n'
+    const rows = logs.map(l => {
+      const fecha = formatDate(l.createdAt).replace(/,/g, '')
+      const usuario = l.User?.nombre || ''
+      const accion = l.accion
+      const tabla = l.tabla
+      const detalle = (l.detalle || '').replace(/,/g, ' ')
+      const likert = l.likert ?? ''
+      return [fecha, usuario, accion, tabla, detalle, likert].join(',')
+    })
+    const csv = header + rows.join('\n')
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'auditoria.csv'
+    link.click()
+    URL.revokeObjectURL(url)
+  }
 
   if (loading) {
     return (
@@ -63,8 +95,26 @@ export default function AuditorPanel() {
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <h1 className="text-2xl font-bold text-gray-100 mb-6">Panel de Auditoría</h1>
 
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Desde:</label>
+            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)}
+              className="bg-gray-700 border-gray-600 rounded p-1 text-sm" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label className="text-sm">Hasta:</label>
+            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)}
+              className="bg-gray-700 border-gray-600 rounded p-1 text-sm" />
+          </div>
+          <button onClick={() => loadData(1)} className="bg-indigo-600 hover:bg-indigo-700 px-3 py-1 rounded text-sm">Filtrar</button>
+          <button onClick={exportCsv} className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">Exportar CSV</button>
+          <button onClick={() => window.print()} className="bg-yellow-600 hover:bg-yellow-700 px-3 py-1 rounded text-sm">PDF</button>
+        </div>
+
         <AuditStats stats={stats} />
         <TopActiveUsers users={topUsers} />
+        <UserTableStats stats={tableStats} />
+        <DeletionStats stats={deletionStats} />
 
         <div className="bg-gray-800 shadow rounded-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
